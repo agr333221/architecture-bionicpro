@@ -1,2 +1,11 @@
 /postgres-keycloak-data
 2024__yandex-architecture-sso.code-workspace
+
+# секреты
+.env
+!.env.example
+!frontend/.env
+
+__pycache__/
+*.pyc
+.venv/

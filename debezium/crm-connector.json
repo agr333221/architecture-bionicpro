@@ -1,0 +1,37 @@
+{
+  "name": "crm-postgres-connector",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "tasks.max": "1",
+
+    "database.hostname": "crm-db",
+    "database.port": "5432",
+    "database.user": "${file:/kafka/secrets/crm.properties:user}",
+    "database.password": "${file:/kafka/secrets/crm.properties:password}",
+    "database.dbname": "crm",
+
+    "topic.prefix": "crm",
+    "plugin.name": "pgoutput",
+    "slot.name": "debezium_crm",
+    "publication.name": "debezium_crm_pub",
+    "publication.autocreate.mode": "filtered",
+    "table.include.list": "public.customers,public.prostheses",
+    "snapshot.mode": "initial",
+
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+
+    "decimal.handling.mode": "string",
+    "time.precision.mode": "adaptive_time_microseconds",
+    "tombstones.on.delete": "false",
+
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.add.fields": "op,lsn,source.ts_ms",
+    "transforms.unwrap.delete.tombstone.handling.mode": "rewrite",
+
+    "heartbeat.interval.ms": "10000"
+  }
+}
